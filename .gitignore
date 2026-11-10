@@ -1,0 +1,10 @@
+# Dependências, configurações locais e arquivos temporários.
+node_modules/
+.env
+.env.*
+!.env.example
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+Desktop.ini
