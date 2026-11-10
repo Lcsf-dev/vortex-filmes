@@ -1,0 +1,217 @@
+/* A paleta e os componentes compartilhados mantêm a identidade da Vortex Filmes. */
+:root {
+    --fundo-principal: #071426;
+    --fundo-painel: #0b1b33;
+    --azul-principal: #075bee;
+    --azul-destaque: #1685ff;
+    --texto-principal: #f4f7fb;
+    --texto-secundario: #aeb8c7;
+    --borda-suave: rgba(174, 184, 199, 0.18);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 105px;
+}
+
+body {
+    margin: 0;
+    background: var(--fundo-principal);
+    color: var(--texto-principal);
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.6;
+    min-width: 320px;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #fff;
+}
+
+button, input {
+    font: inherit;
+}
+
+button, a, input {
+    -webkit-tap-highlight-color: transparent;
+}
+
+:focus-visible {
+    outline: 3px solid #85bcff;
+    outline-offset: 5px;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+.pular-conteudo {
+    position: fixed;
+    top: -80px;
+    left: 16px;
+    z-index: 2000;
+    padding: 10px 18px;
+    background: var(--azul-principal);
+    border-radius: 8px;
+}
+
+.pular-conteudo:focus {
+    top: 12px;
+}
+
+.cabecalho {
+    position: sticky;
+    top: 0;
+    z-index: 1020;
+    background: rgba(6, 17, 32, 0.96);
+    border-bottom: 1px solid var(--borda-suave);
+    backdrop-filter: blur(14px);
+}
+
+.cabecalho .navbar {
+    min-height: 90px;
+}
+
+.marca img {
+    display: block;
+    width: 225px;
+    height: auto;
+}
+
+.cabecalho .navbar-nav {
+    gap: 20px;
+}
+
+.cabecalho .nav-link {
+    color: var(--texto-secundario);
+    font-weight: 600;
+}
+
+.cabecalho .nav-link:hover, .cabecalho .nav-link[aria-current="page"] {
+    color: #fff;
+}
+
+.cabecalho .nav-link[aria-current="page"] {
+    box-shadow: 0 2px var(--azul-destaque);
+}
+
+.navbar-toggler {
+    border-color: var(--borda-suave);
+    padding: 10px;
+}
+
+.botao-primario, .botao-secundario {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 46px;
+    padding: 11px 24px;
+    border: 1px solid transparent;
+    border-radius: 9px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    transition: background 160ms, border-color 160ms, transform 160ms;
+}
+
+.botao-primario {
+    background: var(--azul-principal);
+    color: #fff;
+}
+
+.botao-primario:hover {
+    background: #176bfa;
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+.botao-secundario {
+    background: transparent;
+    color: var(--texto-principal);
+    border-color: #586d88;
+}
+
+.botao-secundario:hover {
+    background: rgba(22, 133, 255, 0.1);
+    border-color: var(--azul-destaque);
+}
+
+.sobretitulo {
+    color: #8dc2ff;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+
+.texto-secundario {
+    color: var(--texto-secundario);
+}
+
+.texto-azul {
+    color: var(--azul-destaque);
+}
+
+.rodape {
+    padding: 26px 0;
+    border-top: 1px solid var(--borda-suave);
+    background: #061120;
+    color: var(--texto-secundario);
+    font-size: 0.8rem;
+}
+
+.rodape p {
+    margin: 0;
+}
+
+.rodape strong {
+    color: var(--texto-principal);
+}
+
+/* Os elementos acompanham a largura disponível, sem margens negativas. */
+@media (max-width: 767.98px) {
+    .cabecalho .navbar {
+        min-height: 76px;
+    }
+
+    .marca img {
+        width: 175px;
+    }
+
+    .cabecalho .navbar-nav {
+        padding: 18px 0;
+        gap: 12px;
+    }
+
+    .cabecalho .nav-link[aria-current="page"] {
+        box-shadow: none;
+        color: #8dc2ff;
+    }
+
+    .rodape {
+        padding: 22px 0;
+    }
+
+}
+
+/* Respeita quem prefere reduzir animações no aparelho. */
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+
+}

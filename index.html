@@ -1,45 +1,85 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR" data-bs-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/styles/login.css">
-    <script src="assets/scripts/login.js"></script>
-    <title>Login</title>
+    <meta name="description" content="Entre na Vortex Filmes e encontre sua próxima sessão de cinema.">
+    <title>Entrar | Vortex Filmes</title>
+    <link rel="stylesheet" href="vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/login.css">
+    <script src="vendor/bootstrap.bundle.min.js" defer></script>
+    <script src="js/login.js" defer></script>
 </head>
-<body>
-
-    <header>
-        <img src="assets/images/branding/logo.png" alt="Vortex Filmes">
-        <p><a href="home.html">Início</a></p>
+<body class="pagina-login">
+    <a class="pular-conteudo" href="#conteudo-principal">Pular para o conteúdo</a>
+    <header class="cabecalho">
+        <!-- O cabeçalho é compartilhado visualmente pelas duas páginas. -->
+        <nav class="navbar navbar-expand-md" aria-label="Navegação principal">
+            <div class="container">
+                <a class="marca" href="index.html" aria-label="Vortex Filmes, página de entrada">
+                    <img src="images/logo.png" alt="Vortex Filmes" width="225" height="70">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu-principal" aria-controls="menu-principal" aria-expanded="false" aria-label="Abrir menu">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-end" id="menu-principal">
+                    <ul class="navbar-nav align-items-md-center">
+                        <li class="nav-item"><a class="nav-link" href="home.html">Início</a></li>
+                        <li class="nav-item"><a class="nav-link" href="home.html#catalogo">Explorar filmes</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#formulario-login" aria-current="page">Entrar</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
     </header>
-    <main id="paginalogin">
-        <img src="assets/images/backgrounds/login.png" id="login" alt="">
 
-        <div id="blocologin">
-            <div id="blocoesquerda">
+    <main id="conteudo-principal" class="apresentacao-login">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <section class="col-lg-7 boas-vindas" aria-labelledby="titulo-apresentacao">
+                    <p class="sobretitulo">A próxima sessão começa aqui</p>
+                    <h1 id="titulo-apresentacao">Bem-vindo à<br>Vortex <span class="texto-azul">Filmes</span></h1>
+                    <p class="descricao-login">Sua plataforma de filmes<br class="d-none d-md-block"> com o melhor da diversão.</p>
+                    <div class="generos-apresentacao" aria-label="Gêneros disponíveis">
+                        <span>Ação</span><span>Romance</span><span>Terror</span><span>E muito mais</span>
+                    </div>
+                </section>
 
-            <h2>Bem vindo à</h2>
-            <h1>Vortex <span>Filmes</span></h1>
-            <h3>Sua plataforma de filmes <br> com o melhor da diversão</h3>
-
+                <section class="col-lg-5" aria-labelledby="titulo-login">
+                    <div class="painel-login">
+                        <p class="sobretitulo">Sua sessão, do seu jeito</p>
+                        <h2 id="titulo-login">Entrar na Vortex</h2>
+                        <p class="texto-secundario mb-4">Encontre uma história para assistir hoje.</p>
+                        <!-- O formulário usa validação própria, com mensagens próximas dos campos. -->
+                        <form id="formulario-login" novalidate>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">E-mail</label>
+                                <input class="form-control" type="email" id="email" placeholder="voce@exemplo.com" autocomplete="email" aria-describedby="mensagem-login" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="senha" class="form-label">Senha</label>
+                                <div class="campo-senha">
+                                    <input class="form-control" type="password" id="senha" placeholder="Digite sua senha" autocomplete="current-password" minlength="6" aria-describedby="ajuda-senha mensagem-login" required>
+                                    <button class="mostrar-senha" id="alternar-senha" type="button" aria-controls="senha" aria-label="Mostrar senha" aria-pressed="false">Mostrar</button>
+                                </div>
+                                <p id="ajuda-senha" class="ajuda-senha">Mínimo de 6 caracteres, uma maiúscula e um caractere especial.</p>
+                            </div>
+                            <p id="mensagem-login" class="mensagem-login" role="alert" aria-atomic="true"></p>
+                            <button class="botao-primario w-100" type="submit">Entrar <span aria-hidden="true">→</span></button>
+                        </form>
+                    </div>
+                </section>
+            </div>
         </div>
-
-            <div>
-                <form id="form-login">
-
-                <h1>Entrar na sua conta</h1>
-                <p>Acesse seu perfil e continue assistindo</p>
-                <input type="email" placeholder="E-mail" aria-label="E-mail" required>
-                <input type="password" placeholder="Senha" aria-label="Senha" required>
-
-                <button id="entrar" type="submit">Entrar</button>
-                </form>
-
-
-             </div>
-
-        </div>
+        <noscript><p class="container">Ative o JavaScript para validar o formulário de entrada.</p></noscript>
     </main>
+
+    <footer class="rodape">
+        <div class="container d-flex flex-wrap justify-content-between gap-2">
+            <p><strong>Vortex Filmes</strong> · O melhor da diversão.</p>
+            <p>Descubra sua próxima história.</p>
+        </div>
+    </footer>
 </body>
 </html>

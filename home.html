@@ -1,21 +1,121 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR" data-bs-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/styles/home.css">
+    <meta name="description" content="Explore o catálogo da Vortex Filmes: ação, aventura, romance, terror e histórias para toda a família.">
     <title>Início | Vortex Filmes</title>
+    <link rel="stylesheet" href="vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/home.css">
+    <script src="vendor/bootstrap.bundle.min.js" defer></script>
+    <script src="js/movies.js" defer></script>
+    <script src="js/home.js" defer></script>
 </head>
 <body>
-    <header>
-        <img src="assets/images/branding/logo.png" alt="Logo Vortex">
-        <p><a href="home.html">Início</a></p>
+    <a class="pular-conteudo" href="#catalogo">Pular para o catálogo</a>
+    <header class="cabecalho">
+        <nav class="navbar navbar-expand-md" aria-label="Navegação principal">
+            <div class="container">
+                <a class="marca" href="home.html" aria-label="Vortex Filmes, página inicial">
+                    <img src="images/logo.png" alt="Vortex Filmes" width="225" height="70">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu-principal" aria-controls="menu-principal" aria-expanded="false" aria-label="Abrir menu">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-end" id="menu-principal">
+                    <ul class="navbar-nav align-items-md-center">
+                        <li class="nav-item"><a class="nav-link" href="home.html" aria-current="page">Início</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#catalogo">Explorar filmes</a></li>
+                        <li class="nav-item"><a class="botao-secundario" href="index.html">Entrar</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
     </header>
 
     <main>
-        <img src="assets/images/backgrounds/home.png" alt="Fundo">
+        <h1 class="visually-hidden">Descubra sua próxima história na Vortex Filmes</h1>
+        <div class="container">
+            <!-- O Bootstrap controla os slides, as setas e a navegação por toque. -->
+            <section class="secao-destaques" aria-label="Filmes em destaque">
+                <div id="carrossel-destaques" class="carousel slide" aria-roledescription="carrossel">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carrossel-destaques" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Destaque 1"></button>
+                        <button type="button" data-bs-target="#carrossel-destaques" data-bs-slide-to="1" aria-label="Destaque 2"></button>
+                        <button type="button" data-bs-target="#carrossel-destaques" data-bs-slide-to="2" aria-label="Destaque 3"></button>
+                    </div>
+                    <div class="carousel-inner" id="lista-destaques"></div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carrossel-destaques" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Filme anterior</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carrossel-destaques" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Próximo filme</span>
+                    </button>
+                </div>
+            </section>
+
+            <section class="secao-catalogo" id="catalogo" aria-labelledby="titulo-catalogo">
+                <div class="cabecalho-catalogo">
+                    <div>
+                        <p class="sobretitulo">Escolha o clima da sua sessão</p>
+                        <h2 id="titulo-catalogo">Encontre sua próxima história<span class="texto-azul">.</span></h2>
+                        <p class="texto-secundario" id="contador-filmes" role="status" aria-live="polite"></p>
+                    </div>
+                    <form id="formulario-busca" class="busca-filmes" role="search">
+                        <label class="visually-hidden" for="busca">Buscar um filme</label>
+                        <span aria-hidden="true">⌕</span>
+                        <input type="search" id="busca" placeholder="Qual filme você procura?" autocomplete="off">
+                    </form>
+                </div>
+                <nav id="filtros-generos" class="filtros-generos" aria-label="Filtrar filmes por gênero"></nav>
+                <p id="nenhum-filme" class="nenhum-filme" hidden>Nenhum filme encontrado. Tente outro título ou escolha outro gênero.</p>
+                <div id="lista-filmes"></div>
+                <noscript><p>Ative o JavaScript para explorar os filmes e seus detalhes.</p></noscript>
+            </section>
+        </div>
     </main>
 
+    <!-- Uma única janela alterna entre sinopse e vídeo, sem sobrepor modais. -->
+    <div class="modal fade" id="janela-filme" tabindex="-1" aria-labelledby="titulo-filme" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+            <article class="modal-content">
+                <header class="modal-header">
+                    <h2 class="modal-title fs-5" id="titulo-filme">Detalhes do filme</h2>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Fechar detalhes do filme"></button>
+                </header>
+                <div class="modal-body">
+                    <section id="conteudo-detalhes" class="detalhes-filme" aria-label="Sinopse e informações">
+                        <img id="capa-filme" class="capa-detalhes" alt="">
+                        <div>
+                            <p class="sobretitulo" id="categoria-filme"></p>
+                            <p class="texto-secundario" id="ano-filme" hidden></p>
+                            <h3>Sobre o filme</h3>
+                            <p id="sinopse-filme" class="sinopse-filme"></p>
+                        </div>
+                    </section>
+                    <section id="conteudo-player" aria-label="Reprodução do vídeo" hidden>
+                        <p id="tipo-video" class="sobretitulo"></p>
+                        <iframe id="player-filme" class="player-filme" title="Reprodução do filme" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                        <p class="ajuda-player">Se o vídeo não carregar, <a id="link-youtube" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer">abra no YouTube <span aria-hidden="true">↗</span></a>.</p>
+                    </section>
+                </div>
+                <footer class="modal-footer">
+                    <button class="botao-secundario" id="voltar-detalhes" type="button" hidden>← Voltar à sinopse</button>
+                    <button class="botao-secundario" id="ver-trailer" type="button">Ver trailer</button>
+                    <button class="botao-primario" id="assistir-filme" type="button"><span aria-hidden="true">▶</span> Assistir filme</button>
+                </footer>
+            </article>
+        </div>
+    </div>
 
+    <footer class="rodape">
+        <div class="container d-flex flex-wrap justify-content-between gap-2">
+            <p><strong>Vortex Filmes</strong> · O melhor da diversão.</p>
+            <p>Filmes e trailers para a sua próxima sessão.</p>
+        </div>
+    </footer>
 </body>
 </html>
