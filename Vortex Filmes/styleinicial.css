@@ -1,0 +1,55 @@
+/* FORMATADO PARA DESKTOP */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    background-color: #000;
+}
+
+/* Cabeçalho configurado para aparecer na frente */
+header {
+    position: relative; /* Mantém o cabeçalho no fluxo normal da página */
+    z-index: 10;        /* Garante que fique acima da imagem de fundo */
+    background-color: #061120;
+    height: 100px;
+    width: 100vw;
+    display: flex;
+    align-items: center; /* Centraliza verticalmente a logo e o texto */
+    color: #D9E0E9;
+    gap: 70px;
+}
+
+header img {
+    width: 270px;
+    margin-left: 50px;
+    object-fit: contain;
+}
+
+header a {
+    text-decoration: none;
+    color: #D9E0E9;
+}
+
+header p {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 700;
+    font-size: 35px;
+}
+
+/* Imagem de fundo cobrindo a tela inteira atrás de tudo */
+main img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: 0; /* Fica no fundo */
+}

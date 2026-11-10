@@ -1,0 +1,178 @@
+/* FORMATADO PARA DESKTOP */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Garante que o corpo da página ocupe 100% e não permita rolagens extras */
+  html, body {
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    background-color: #000; /* Previne que qualquer flash branco apareça */
+  }
+
+
+    header img{
+        width: 270px;
+        margin-left: 50px;
+        
+    }
+
+    header{
+        background-color: #061120;
+        height: 100px;
+        width: 100vw;
+        display: flex;
+        color: #D9E0E9 ;
+        font-size: 30px;
+        gap: 70px;
+
+    }
+
+    header a{
+        text-decoration: none;
+        color:#D9E0E9 ;
+
+    }
+    
+    header p {
+        padding-top: 30px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: 700;
+        font-size: 35px;
+        
+    }
+    
+
+    main img{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        object-fit: cover;
+        z-index: 1; /
+    }
+
+    #paginalogin {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+    #blocologin{
+        position: relative;
+        z-index: 2; /* Fica na frente da imagem */
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 85%;
+        max-width: 1200px;
+        color: #D9E0E9 ;
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: 100;
+        margin-left: 0px;
+        padding-left: 0px;
+    }
+
+    #blocoesquerda{
+        margin-left: -290px;
+        margin-bottom: -250px;
+        font-weight: 1000px;
+        letter-spacing: 2px;
+
+
+    }
+
+    #blocoesquerda h2 {
+        font-size: 50px;
+
+    }
+
+    #blocoesquerda h1 {
+        font-size: 90px;
+        
+    }
+
+    #blocoesquerda h1 span {
+        color: #075BEE;
+        font-weight: 2000px;
+
+        
+    }
+
+    #blocoesquerda h3 {
+        font-size: 30px;
+        line-height: 40px;
+        
+
+    }
+
+  
+
+    form {
+        background: rgba(10, 15, 30, 0.75); /* Fundo translúcido escuro */
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        margin-top: -70px;
+        padding: 40px;
+        border-radius: 16px;
+        backdrop-filter: blur(10px); /* Efeito vidro fosco */
+        width: 100%;
+        height: 500px;
+        max-width: 460px;
+        color: #fff;
+      }
+      
+    form h1 {
+        font-size: 1.6rem;
+        margin-bottom: 8px;
+        text-align: center;
+      }
+      
+    form p {
+        line-height: 40px;
+        color: #aaa;
+        font-size: 0.9rem;
+        margin-bottom: 24px;
+        text-align: center;
+        font-size: 20px;
+      }
+      
+    form input {
+        width: 100%;
+        padding: 14px;
+        margin-bottom: 16px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 8px;
+        color: #fff;
+        font-size: 1rem;
+      }
+      
+    form input:focus {
+        border-color: #00a2ff;
+        outline: none;
+    }
+
+    button {
+        width: 100%;
+        padding: 14px;
+        margin-bottom: 36px;
+        background: #075BEE;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 8px;
+        color: #fff;
+        font-size: 1rem;
+        margin-top: 20px;
+      }
+
+    button a{
+        text-decoration: none;
+        color:#D9E0E9 ;
+    }  
