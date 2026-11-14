@@ -1,52 +1,57 @@
 # 🎬 Vortex Filmes
 
-**Sua próxima sessão começa aqui.**
+Catálogo de **96 filmes em oito categorias**, com busca, destaques e detalhes. Desenvolvido com **HTML, CSS e JavaScript**, sem bibliotecas externas ou instalação de dependências.
 
-Vortex Filmes reúne histórias de diferentes gêneros em um catálogo com visual escuro, detalhes em azul e navegação adaptada para celular, tablet e computador.
+## 🌐 Acesse o projeto
 
-## 🍿 Catálogo
-
-São **96 filmes**, distribuídos em **8 seções com 12 títulos cada**:
-
-🎯 Ação · 🧭 Aventura · 🚀 Ficção · 👻 Terror · 🎭 Drama · 💙 Romance · 🎨 Animação · 🧸 Infantil
-
-Cada título apresenta capa, sinopse, ano de lançamento, duração e acesso ao filme com áudio em português.
+- **Site:** [Vortex Filmes na Netlify](https://vortex-filmes-lcsf-dev.netlify.app)
+- **Código:** [Repositório no GitHub](https://github.com/Lcsf-dev/vortex-filmes)
+- **Hospedagem:** site estático, com publicação da raiz (`.`), sem comando de compilação. Configuração em `netlify.toml`.
 
 ## ✨ Funcionalidades
 
-- 🔎 **Busca instantânea:** encontre filmes por título ou gênero, com reconhecimento de textos com ou sem acentos.
-- 🏷️ **Filtros por gênero:** explore uma seção e combine o filtro com a busca.
-- 🎠 **Carrossel de destaques:** conheça títulos selecionados pelas setas, indicadores ou navegação por toque.
-- 📖 **Detalhes dos filmes:** consulte a sinopse e as informações em uma janela sobre o catálogo.
-- ▶️ **Filmes e trailers:** assista aos vídeos disponíveis no YouTube, com opção de abrir no canal de origem.
-- 🗣️ **Trailers em português:** prioridade para versões dubladas; versões legendadas em português são a alternativa. Quando não há uma versão confirmada, o botão identifica e abre uma busca no YouTube.
-- 📱 **Layout responsivo:** navegação e cartões se ajustam ao tamanho da tela.
-- ✉️ **Formulário de entrada:** validação de e-mail e senha no navegador, mensagens de orientação e controle para mostrar ou ocultar a senha.
-- ♿ **Acessibilidade:** navegação por teclado, foco visível, campos identificados e atalhos para o conteúdo principal.
+- Busca por título ou gênero, combinada com filtros e sem diferenciar acentos.
+- Três destaques sorteados a cada abertura, evitando a seleção anterior quando o armazenamento do navegador está disponível.
+- Carrossel com troca a cada **6 segundos**, setas, indicadores e pausa; respeita a preferência por movimento reduzido.
+- Janela de detalhes com capa, sinopse, ano, duração e botões de filme e trailer.
+- Layout responsivo, menu móvel e navegação por teclado.
 
-## 🛠️ Tecnologias
+## 🚀 Como executar
 
-| Tecnologia | Uso |
-| --- | --- |
-| **HTML5** | Estrutura semântica das páginas e dos formulários |
-| **CSS3** | Identidade visual, estilos e adaptação para diferentes telas |
-| **JavaScript** | Catálogo, busca, filtros, validação e interação com os vídeos |
-| **Bootstrap 5.3.8** | Menu responsivo, carrossel e janela de detalhes |
-| **YouTube** | Hospedagem e reprodução dos filmes e trailers |
+Abra `index.html`. Para testar vídeos, prefira um servidor local, pois o YouTube pode restringir páginas abertas por `file://`:
 
-O Bootstrap está incluído nos arquivos locais. A reprodução dos vídeos precisa de conexão com a internet e depende da disponibilidade e das permissões de cada canal no YouTube.
+```powershell
+python -m http.server 5500 --bind 127.0.0.1
+```
 
-## 🗂️ Organização
+Acesse [localhost:5500](http://127.0.0.1:5500). Encerre com `Ctrl+C`. Os vídeos exigem internet. Você também pode desenvolver e apresentar o projeto localmente.
 
-| Arquivo ou pasta | Função |
-| --- | --- |
-| `index.html` | Página de entrada |
-| `home.html` | Catálogo de filmes |
-| `css/` | Estilos das páginas |
-| `js/login.js` | Validação do formulário de entrada |
-| `js/home.js` | Interações do catálogo |
-| `js/movies.js` | Títulos, sinopses, capas e links dos vídeos |
-| `images/` | Logo, fundos e capas |
-| `vendor/` | Arquivos locais do Bootstrap |
+## 📁 Organização dos arquivos
 
-Os arquivos de código têm nomes em inglês. As variáveis, funções e os comentários próprios estão em português, assim como os nomes das capas.
+```text
+index.html                          Estrutura da página
+css/styles.css                      Aparência e responsividade
+js/movies.js                        Dados dos 96 filmes
+js/catalog.js                       Busca, filtros e interações
+images/posters/movie-001.jpg         Capas identificadas pelo número do filme
+images/backgrounds/catalog-background.png
+                                    Fundo do carrossel
+images/brand/logo.png                Logotipo do site
+.gitignore                          Arquivos que o Git deve ignorar
+```
+
+Nomes de arquivos e pastas seguem o padrão em inglês; conteúdo e comentários permanecem em português.
+
+## 🧩 Como explicar o código
+
+1. **HTML:** define as seções e os espaços que o JavaScript preenche. `defer` carrega os dados antes das funções, após a leitura do HTML.
+2. **Dados:** `movies.js` guarda títulos, capas, sinopses, links e informações de idioma.
+3. **Interações:** `catalog.js` monta os cartões, aplica os filtros, sorteia os destaques e controla o carrossel e a janela nativa `<dialog>`.
+4. **Visual:** `styles.css` usa Flexbox, Grid, Scroll Snap e regras por tamanho de tela para organizar os elementos.
+
+## ✅ Conferência dos vídeos — 14/11/2026
+
+- **96 sinopses** revisadas; **68 filmes** com português confirmado e **28** com confirmação integral pendente.
+- **81 trailers em português:** 41 dublados (seis com dublagem automática identificada) e 40 legendados. Outros **15 botões estão ocultos** por falta de português comprovado.
+- **95 filmes têm link cadastrado; Smurfs 2 continua sem link válido.** Bloqueios de incorporação são tratados com abertura no serviço de origem.
+- CAPTCHA e limitações do YouTube impediram validar toda a reprodução. Idioma documentado e link disponível **não garantem reprodução atual**; disponibilidade pode mudar.
