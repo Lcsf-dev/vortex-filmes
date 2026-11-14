@@ -52,8 +52,8 @@ Nomes de arquivos e pastas seguem o padrão em inglês; conteúdo e comentários
 
 ## ✅ Conferência dos vídeos — 14/11/2026
 
-- **96 sinopses** revisadas; **68 filmes** com português confirmado e **28** com confirmação integral pendente.
-- **81 trailers em português:** 41 dublados (seis com dublagem automática identificada) e 40 legendados. Outros **15 botões estão ocultos** por falta de português comprovado.
-- **95 filmes têm link cadastrado; Smurfs 2 continua sem link válido.** Dumbo, Pinóquio e A Abelhinha Maya têm bloqueio de incorporação registrado; seus botões ficam desabilitados até existir outra fonte confirmada.
-- Os 92 filmes com incorporação permitida nos dados e os 81 trailers visíveis usam o player interno. Confirmação de idioma é independente do destino de reprodução. O trailer de Conduzido para Matar utiliza o player oficial do Dailymotion.
+- **96 sinopses** revisadas; **72 filmes** com português confirmado e **24** com confirmação integral pendente.
+- **81 trailers em português:** 40 dublados (seis com dublagem automática identificada) e 41 legendados. Outros **15 botões estão ocultos** por falta de português comprovado.
+- **96 filmes têm link cadastrado com incorporação permitida nos metadados.** Os quatro registros indisponíveis foram substituídos por Arthur e os Minimoys, Uma Aventura no Gelo, Pororo: Aventuras no Castelo do Dragão e A Loja Mágica de Brinquedos, preservando suas categorias e atualizando capas e sinopses.
+- Os 96 filmes e os 81 trailers visíveis usam o player interno. Confirmação de idioma é independente do destino de reprodução. Os trailers de Conduzido para Matar e Arthur e os Minimoys utilizam o player oficial do Dailymotion.
 - CAPTCHA e limitações do YouTube impediram validar toda a reprodução. Idioma documentado e link disponível **não garantem reprodução atual**; disponibilidade pode mudar.
