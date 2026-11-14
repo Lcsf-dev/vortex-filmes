@@ -4,7 +4,7 @@ Catálogo de **96 filmes em oito categorias**, com busca, destaques e detalhes. 
 
 ## 🌐 Acesse o projeto
 
-- **Site:** [Vortex Filmes na Netlify](https://vortex-filmes-lcsf-dev.netlify.app)
+- **Site:** [Vortex Filmes na Netlify](https://vortex-filmes.netlify.app)
 - **Código:** [Repositório no GitHub](https://github.com/Lcsf-dev/vortex-filmes)
 - **Hospedagem:** site estático, com publicação da raiz (`.`), sem comando de compilação. Configuração em `netlify.toml`.
 
@@ -14,7 +14,8 @@ Catálogo de **96 filmes em oito categorias**, com busca, destaques e detalhes. 
 - Três destaques sorteados a cada abertura, evitando a seleção anterior quando o armazenamento do navegador está disponível.
 - Carrossel com troca a cada **6 segundos**, setas, indicadores e pausa; respeita a preferência por movimento reduzido.
 - Janela de detalhes com capa, sinopse, ano, duração e botões de filme e trailer.
-- Layout responsivo, menu móvel e navegação por teclado.
+- Layout adaptado para celular, tablet e desktop, nas orientações vertical e horizontal; menu móvel e navegação por teclado.
+- Favicon próprio com símbolo de reprodução e as cores da marca.
 
 ## 🚀 Como executar
 
