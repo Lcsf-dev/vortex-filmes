@@ -6,7 +6,7 @@ Catálogo de **96 filmes em oito categorias**, com busca, destaques e detalhes. 
 
 - **Site:** [Vortex Filmes na Netlify](https://vortex-filmes.netlify.app)
 - **Código:** [Repositório no GitHub](https://github.com/Lcsf-dev/vortex-filmes)
-- **Hospedagem:** site estático, com publicação da raiz (`.`), sem comando de compilação. Configuração definida diretamente na Netlify, sem arquivo adicional.
+- **Hospedagem:** site estático, publicado diretamente na Netlify, sem compilação ou arquivo de configuração adicional.
 
 ## ✨ Funcionalidades
 
