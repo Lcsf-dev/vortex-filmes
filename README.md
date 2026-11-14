@@ -13,7 +13,7 @@ Catálogo de **96 filmes em oito categorias**, com busca, destaques e detalhes. 
 - Busca por título ou gênero, combinada com filtros e sem diferenciar acentos.
 - Três destaques sorteados a cada abertura, evitando a seleção anterior quando o armazenamento do navegador está disponível.
 - Carrossel com troca a cada **6 segundos**, setas, indicadores e pausa; respeita a preferência por movimento reduzido.
-- Janela de detalhes com capa, sinopse, ano, duração e botões de filme e trailer.
+- Janela de detalhes com capa, sinopse, ano, duração e player interno para filmes e trailers, sem abrir outras abas.
 - Layout adaptado para celular, tablet e desktop, nas orientações vertical e horizontal; menu móvel e navegação por teclado.
 - Favicon próprio com símbolo de reprodução e as cores da marca.
 
@@ -54,5 +54,6 @@ Nomes de arquivos e pastas seguem o padrão em inglês; conteúdo e comentários
 
 - **96 sinopses** revisadas; **68 filmes** com português confirmado e **28** com confirmação integral pendente.
 - **81 trailers em português:** 41 dublados (seis com dublagem automática identificada) e 40 legendados. Outros **15 botões estão ocultos** por falta de português comprovado.
-- **95 filmes têm link cadastrado; Smurfs 2 continua sem link válido.** Bloqueios de incorporação são tratados com abertura no serviço de origem.
+- **95 filmes têm link cadastrado; Smurfs 2 continua sem link válido.** Dumbo, Pinóquio e A Abelhinha Maya têm bloqueio de incorporação registrado; seus botões ficam desabilitados até existir outra fonte confirmada.
+- Os 92 filmes com incorporação permitida nos dados e os 81 trailers visíveis usam o player interno. Confirmação de idioma é independente do destino de reprodução. O trailer de Conduzido para Matar utiliza o player oficial do Dailymotion.
 - CAPTCHA e limitações do YouTube impediram validar toda a reprodução. Idioma documentado e link disponível **não garantem reprodução atual**; disponibilidade pode mudar.

@@ -2,10 +2,10 @@
  * id identifica o filme e conecta cartões, destaques e janela de detalhes.
  * titulo, categoria, ano, sinopse e capa fornecem o conteúdo exibido.
  * duracao é medida em segundos; video e trailer guardam IDs do YouTube.
- * trailerExterno guarda uma URL quando o trailer está em outro serviço.
+ * trailerExterno guarda a fonte externa; trailerEmbed guarda seu player oficial.
  * Campos terminados em Confirmado registram a confirmação do conteúdo/idioma.
  * Idioma e Variante distinguem português, legendas e a variante regional conhecida.
- * Incorporavel controla a abertura no player; false direciona para o YouTube.
+ * videoIncorporavel false identifica um bloqueio conhecido de reprodução no site.
  * trailerOculto retira a opção sem apagar a referência; DublagemAutomatica identifica voz gerada.
  * FonteIdioma e Verificacao documentam evidências quando disponíveis.
  * null significa informação não confirmada, não necessariamente vídeo indisponível.
@@ -244,14 +244,15 @@ const filmes = [
         "trailerConfirmado": true,
         "trailerIdioma": "legendado",
         "trailerVariante": null,
-        "trailerIncorporavel": false,
+        "trailerIncorporavel": true,
         "trailerEdicaoConfirmada": true,
         "videoAudioDetectado": "pt",
         "videoAudioVerificacao": "reconhecimento de fala do YouTube (ASR pt)",
         "trailerExterno": "https://www.adorocinema.com/filmes/filme-147186/trailer-19551958/",
         "trailerVerificacao": "declaracao-publicador",
         "trailerFonteIdioma": "https://www.adorocinema.com/filmes/filme-147186/trailer-19551958/",
-        "trailerOculto": false
+        "trailerOculto": false,
+        "trailerEmbed": "https://www.dailymotion.com/embed/video/x88p0ba"
     },
     {
         "id": "filme-012",

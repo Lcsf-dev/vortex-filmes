@@ -57,25 +57,24 @@ function obterTextoTrailer(filme) {
     // A edição e o idioma são verificados separadamente para não rotular um idioma incerto.
     if (!filme.trailerConfirmado) {
         if ((filme.trailer || filme.trailerExterno) && filme.trailerEdicaoConfirmada) {
-            return "Ver trailer (idioma a confirmar) ↗";
+            return "Ver trailer (idioma a confirmar)";
         }
 
-        return "Buscar trailer no YouTube ↗";
+        return "Trailer indisponível";
     }
 
-    const indicacaoExterna = filme.trailerIncorporavel === false ? " ↗" : "";
     const variante = filme.trailerVariante === "pt-PT" ? " (Portugal)" : "";
 
     if (filme.trailerIdioma === "dublado") {
         if (filme.trailerDublagemAutomatica) {
-            return "Trailer em português (dublagem automática)" + variante + indicacaoExterna;
+            return "Trailer em português (dublagem automática)" + variante;
         }
 
-        return "Trailer dublado" + variante + indicacaoExterna;
+        return "Trailer dublado" + variante;
     } else if (filme.trailerIdioma === "legendado") {
-        return "Trailer legendado em português" + variante + indicacaoExterna;
+        return "Trailer legendado em português" + variante;
     } else {
-        return "Buscar trailer no YouTube ↗";
+        return "Trailer indisponível";
     }
 }
 
@@ -322,17 +321,13 @@ function criarDestaques() {
 }
 
 /* 5. Detalhes e reprodução: o vídeo só carrega após um clique do visitante. */
-// Aceita apenas IDs do YouTube com 11 caracteres e monta o link interno ou externo.
-function montarEnderecoVideo(identificador, incorporar) {
+// O player recebe apenas IDs válidos do YouTube; os links nunca abrem outra aba.
+function montarEnderecoVideo(identificador) {
     if (!/^[a-zA-Z0-9_-]{11}$/.test(identificador)) {
         return null;
     }
 
-    if (incorporar) {
-        return "https://www.youtube.com/embed/" + identificador + "?rel=0";
-    } else {
-        return "https://www.youtube.com/watch?v=" + identificador;
-    }
+    return "https://www.youtube.com/embed/" + identificador + "?rel=0";
 }
 
 // Remover src interrompe o vídeo; hidden alterna a sinopse, o player e os botões.
@@ -367,13 +362,11 @@ function mostrarDetalhesFilme(identificador, acionador) {
     document.getElementById("ver-trailer").textContent = obterTextoTrailer(filmeSelecionado);
     const botaoFilme = document.getElementById("assistir-filme");
 
-    if (!filmeSelecionado.videoConfirmado) {
-        botaoFilme.textContent = montarEnderecoVideo(filmeSelecionado.video, false) ? "Abrir vídeo no YouTube ↗" : "Buscar filme no YouTube ↗";
-    } else if (filmeSelecionado.videoIncorporavel === false) {
-        botaoFilme.textContent = "Assistir no YouTube ↗";
-    } else {
-        botaoFilme.textContent = "▶ Assistir filme";
-    }
+    const possuiVideo = Boolean(montarEnderecoVideo(filmeSelecionado.video));
+    const bloqueado = filmeSelecionado.videoIncorporavel === false;
+    botaoFilme.disabled = !possuiVideo || bloqueado;
+    botaoFilme.textContent = bloqueado ? "Reprodução bloqueada no site" : possuiVideo ? "▶ Assistir filme" : "Filme indisponível";
+    botaoFilme.title = bloqueado ? "O canal não permite reproduzir este vídeo em outros sites." : possuiVideo ? "" : "Ainda não há um vídeo válido cadastrado.";
 
     // O dialog nativo mantém o foco na janela e permite fechar com Escape.
     document.getElementById("janela-filme").showModal();
@@ -385,80 +378,44 @@ function reproduzirVideo(tipo) {
         return;
     }
 
-    const identificador = tipo === "trailer" ? filmeSelecionado.trailer : filmeSelecionado.video;
-    const incorporavel = tipo === "trailer" ? filmeSelecionado.trailerIncorporavel : filmeSelecionado.videoIncorporavel;
-
-    // Os dados indicam quais vídeos precisam abrir diretamente em outra aba.
-    if (incorporavel === false) {
-        const enderecoYouTube = montarEnderecoVideo(identificador, false);
-
-        if (enderecoYouTube) {
-            window.open(enderecoYouTube, "_blank", "noopener,noreferrer");
-        }
-
+    const trailer = tipo === "trailer";
+    if (!trailer && filmeSelecionado.videoIncorporavel === false) {
         return;
     }
 
-    const enderecoBase = montarEnderecoVideo(identificador, true);
-    const pedirLegendas = tipo === "trailer" && filmeSelecionado.trailerIdioma === "legendado";
-    const endereco = enderecoBase && pedirLegendas ? enderecoBase + "&cc_load_policy=1&cc_lang_pref=pt&hl=pt-BR" : enderecoBase;
-
-    if (endereco) {
-        const reprodutor = document.getElementById("reprodutor-filme");
-        document.getElementById("conteudo-detalhes").hidden = true;
-        document.getElementById("conteudo-video").hidden = false;
-        const textoTrailer = obterTextoTrailer(filmeSelecionado);
-        document.getElementById("tipo-video").textContent = tipo === "trailer" ? textoTrailer : "Assistir filme";
-        reprodutor.title = (tipo === "trailer" ? "Trailer de " : "Assistir ") + filmeSelecionado.titulo;
-        reprodutor.src = endereco;
-        document.getElementById("link-youtube").href = montarEnderecoVideo(identificador, false);
-        document.getElementById("voltar-detalhes").hidden = false;
-        document.getElementById("assistir-filme").hidden = true;
-        document.getElementById("ver-trailer").hidden = true;
-        document.getElementById("voltar-detalhes").focus();
+    let endereco = montarEnderecoVideo(trailer ? filmeSelecionado.trailer : filmeSelecionado.video);
+    // O trailer externo usa o endereço oficial de incorporação, sem abrir sua página em outra aba.
+    if (trailer && filmeSelecionado.trailerEmbed) {
+        const embed = filmeSelecionado.trailerEmbed;
+        endereco = /^https:\/\/www\.dailymotion\.com\/embed\/video\/[a-zA-Z0-9]+$/.test(embed) ? embed : null;
+    } else if (endereco && trailer && filmeSelecionado.trailerIdioma === "legendado") {
+        endereco += "&cc_load_policy=1&cc_lang_pref=pt&hl=pt-BR";
     }
+
+    if (!endereco) {
+        return;
+    }
+
+    const reprodutor = document.getElementById("reprodutor-filme");
+    document.getElementById("conteudo-detalhes").hidden = true;
+    document.getElementById("conteudo-video").hidden = false;
+    document.getElementById("tipo-video").textContent = trailer ? obterTextoTrailer(filmeSelecionado) : "Assistir filme";
+    reprodutor.title = (trailer ? "Trailer de " : "Assistir ") + filmeSelecionado.titulo;
+    reprodutor.src = endereco;
+    document.getElementById("voltar-detalhes").hidden = false;
+    document.getElementById("assistir-filme").hidden = true;
+    document.getElementById("ver-trailer").hidden = true;
+    document.getElementById("voltar-detalhes").focus();
 }
 
 function abrirFilme() {
-    if (filmeSelecionado && filmeSelecionado.videoConfirmado) {
-        reproduzirVideo("filme");
-    } else if (filmeSelecionado) {
-        // A pendência de idioma ou edição não impede consultar o vídeo já cadastrado.
-        const endereco = montarEnderecoVideo(filmeSelecionado.video, false);
-
-        if (endereco) {
-            window.open(endereco, "_blank", "noopener,noreferrer");
-            return;
-        }
-
-        const consulta = encodeURIComponent(filmeSelecionado.titulo + " " + (filmeSelecionado.ano || "") + " filme completo português");
-        window.open("https://www.youtube.com/results?search_query=" + consulta, "_blank", "noopener,noreferrer");
-    }
+    // A confirmação de idioma não decide onde o vídeo abre: o destino é sempre o player interno.
+    reproduzirVideo("filme");
 }
 
 function abrirTrailer() {
-    if (!filmeSelecionado || filmeSelecionado.trailerOculto) {
-        return;
-    }
-
-    if (filmeSelecionado.trailerConfirmado && filmeSelecionado.trailerExterno) {
-        window.open(filmeSelecionado.trailerExterno, "_blank", "noopener,noreferrer");
-        return;
-    }
-
-    if (filmeSelecionado && filmeSelecionado.trailerConfirmado && filmeSelecionado.trailer && filmeSelecionado.trailerIdioma) {
+    if (filmeSelecionado && !filmeSelecionado.trailerOculto && filmeSelecionado.trailerConfirmado) {
         reproduzirVideo("trailer");
-    } else if (filmeSelecionado && filmeSelecionado.trailerEdicaoConfirmada && (filmeSelecionado.trailer || filmeSelecionado.trailerExterno)) {
-        // O link é do filme correto; o YouTube permite conferir as faixas ainda pendentes.
-        const endereco = filmeSelecionado.trailerExterno || montarEnderecoVideo(filmeSelecionado.trailer, false);
-
-        if (endereco) {
-            window.open(endereco, "_blank", "noopener,noreferrer");
-        }
-    } else if (filmeSelecionado) {
-        // A busca é identificada como busca quando ainda não há um link confirmado.
-        const consulta = encodeURIComponent(filmeSelecionado.titulo + " " + (filmeSelecionado.ano || "") + " trailer dublado ou legendado português");
-        window.open("https://www.youtube.com/results?search_query=" + consulta, "_blank", "noopener,noreferrer");
     }
 }
 

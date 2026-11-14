@@ -514,12 +514,6 @@ body {
     color: var(--texto-secundario);
 }
 
-.ajuda-reprodutor a {
-    color: #8dc2ff;
-    text-decoration: underline;
-    text-underline-offset: 3px;
-}
-
 /* 6. Responsividade: cabeçalho, rodapé, grade e janela de detalhes. */
 /* Os elementos acompanham a largura disponível, sem margens negativas. */
 @media (max-width: 767.98px) {
@@ -1132,4 +1126,15 @@ body.detalhes-abertos {
         min-height: 0;
         max-height: calc(100dvh - 160px);
     }
+}
+
+/* Vídeos ausentes ou com bloqueio conhecido não redirecionam para outro serviço. */
+.botao-primario:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.botao-primario:disabled:hover {
+    background: var(--azul-principal);
+    transform: none;
 }
