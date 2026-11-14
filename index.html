@@ -1,85 +1,125 @@
 <!DOCTYPE html>
-<html lang="pt-BR" data-bs-theme="dark">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Entre na Vortex Filmes e encontre sua próxima sessão de cinema.">
-    <title>Entrar | Vortex Filmes</title>
-    <link rel="stylesheet" href="vendor/bootstrap.min.css">
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/login.css">
-    <script src="vendor/bootstrap.bundle.min.js" defer></script>
-    <script src="js/login.js" defer></script>
-</head>
-<body class="pagina-login">
-    <a class="pular-conteudo" href="#conteudo-principal">Pular para o conteúdo</a>
-    <header class="cabecalho">
-        <!-- O cabeçalho é compartilhado visualmente pelas duas páginas. -->
-        <nav class="navbar navbar-expand-md" aria-label="Navegação principal">
-            <div class="container">
-                <a class="marca" href="index.html" aria-label="Vortex Filmes, página de entrada">
-                    <img src="images/logo.png" alt="Vortex Filmes" width="225" height="70">
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu-principal" aria-controls="menu-principal" aria-expanded="false" aria-label="Abrir menu">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse justify-content-end" id="menu-principal">
-                    <ul class="navbar-nav align-items-md-center">
-                        <li class="nav-item"><a class="nav-link" href="home.html">Início</a></li>
-                        <li class="nav-item"><a class="nav-link" href="home.html#catalogo">Explorar filmes</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#formulario-login" aria-current="page">Entrar</a></li>
-                    </ul>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Explore o catálogo da Vortex Filmes: ação, aventura, romance, terror e histórias para toda a família.">
+        <title>Catálogo | Vortex Filmes</title>
+        <link rel="stylesheet" href="css/styles.css">
+        <!-- defer preserva a ordem: os dados carregam antes das funções, após a leitura do HTML. -->
+        <script src="js/movies.js" defer></script>
+        <script src="js/catalog.js" defer></script>
+    </head>
+    <body>
+        <!-- Atalho de teclado para chegar ao catálogo sem percorrer o menu. -->
+        <a class="pular-conteudo" href="#catalogo">Pular para o catálogo</a>
+        <!-- Navegação responsiva: o catálogo abre diretamente nesta página. -->
+        <header class="cabecalho">
+            <nav class="navegacao-principal" aria-label="Navegação principal">
+                <div class="conteiner">
+                    <a class="marca" href="index.html" aria-label="Vortex Filmes, página inicial">
+                        <img src="images/brand/logo.png" alt="Vortex Filmes" width="225" height="70">
+                    </a>
+                    <button class="botao-menu" id="alternar-menu" type="button" aria-controls="menu-principal" aria-expanded="false" aria-label="Abrir menu">
+                        <span class="icone-menu"></span>
+                    </button>
+                    <div class="menu-principal" id="menu-principal">
+                        <ul class="lista-menu">
+                            <li class="item-menu"><a class="link-menu" href="index.html" aria-current="page">Início</a></li>
+                            <li class="item-menu"><a class="link-menu" href="#catalogo">Explorar filmes</a></li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-        </nav>
-    </header>
+            </nav>
+        </header>
 
-    <main id="conteudo-principal" class="apresentacao-login">
-        <div class="container">
-            <div class="row align-items-center g-5">
-                <section class="col-lg-7 boas-vindas" aria-labelledby="titulo-apresentacao">
-                    <p class="sobretitulo">A próxima sessão começa aqui</p>
-                    <h1 id="titulo-apresentacao">Bem-vindo à<br>Vortex <span class="texto-azul">Filmes</span></h1>
-                    <p class="descricao-login">Sua plataforma de filmes<br class="d-none d-md-block"> com o melhor da diversão.</p>
-                    <div class="generos-apresentacao" aria-label="Gêneros disponíveis">
-                        <span>Ação</span><span>Romance</span><span>Terror</span><span>E muito mais</span>
+        <main>
+            <h1 class="somente-leitores">Descubra sua próxima história na Vortex Filmes</h1>
+            <div class="conteiner">
+                <!-- Destaques sorteados com navegação nativa e troca automática. -->
+                <section class="secao-destaques" aria-label="Filmes em destaque">
+                    <div id="carrossel-destaques" class="carrossel" tabindex="0" aria-roledescription="carrossel">
+                        <div class="indicadores-destaques">
+                            <button type="button" data-destaque="0" class="ativo" aria-current="true" aria-label="Destaque 1"></button>
+                            <button type="button" data-destaque="1" aria-label="Destaque 2"></button>
+                            <button type="button" data-destaque="2" aria-label="Destaque 3"></button>
+                        </div>
+                        <!-- O JavaScript preenche os três slides; data-destaque conecta os indicadores. -->
+                        <div class="lista-destaques" id="lista-destaques"></div>
+                        <button class="controle-anterior" id="destaque-anterior" type="button">
+                            <span class="icone-anterior" aria-hidden="true"></span>
+                            <span class="somente-leitores">Filme anterior</span>
+                        </button>
+                        <button class="controle-proximo" id="destaque-proximo" type="button">
+                            <span class="icone-proximo" aria-hidden="true"></span>
+                            <span class="somente-leitores">Próximo filme</span>
+                        </button>
+                        <button class="pausa-destaques" id="pausar-destaques" type="button" aria-pressed="false">Pausar destaques</button>
                     </div>
                 </section>
 
-                <section class="col-lg-5" aria-labelledby="titulo-login">
-                    <div class="painel-login">
-                        <p class="sobretitulo">Sua sessão, do seu jeito</p>
-                        <h2 id="titulo-login">Entrar na Vortex</h2>
-                        <p class="texto-secundario mb-4">Encontre uma história para assistir hoje.</p>
-                        <!-- O formulário usa validação própria, com mensagens próximas dos campos. -->
-                        <form id="formulario-login" novalidate>
-                            <div class="mb-3">
-                                <label for="email" class="form-label">E-mail</label>
-                                <input class="form-control" type="email" id="email" placeholder="voce@exemplo.com" autocomplete="email" aria-describedby="mensagem-login" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="senha" class="form-label">Senha</label>
-                                <div class="campo-senha">
-                                    <input class="form-control" type="password" id="senha" placeholder="Digite sua senha" autocomplete="current-password" minlength="6" aria-describedby="ajuda-senha mensagem-login" required>
-                                    <button class="mostrar-senha" id="alternar-senha" type="button" aria-controls="senha" aria-label="Mostrar senha" aria-pressed="false">Mostrar</button>
-                                </div>
-                                <p id="ajuda-senha" class="ajuda-senha">Mínimo de 6 caracteres, uma maiúscula e um caractere especial.</p>
-                            </div>
-                            <p id="mensagem-login" class="mensagem-login" role="alert" aria-atomic="true"></p>
-                            <button class="botao-primario w-100" type="submit">Entrar <span aria-hidden="true">→</span></button>
+                <!-- O JavaScript monta filtros e cartões usando os dados de movies.js. -->
+                <section class="secao-catalogo" id="catalogo" aria-labelledby="titulo-catalogo">
+                    <div class="cabecalho-catalogo">
+                        <div>
+                            <p class="sobretitulo">Escolha o clima da sua sessão</p>
+                            <h2 id="titulo-catalogo">Encontre sua próxima história<span class="texto-azul">.</span></h2>
+                            <p class="texto-secundario" id="contador-filmes" role="status" aria-live="polite"></p>
+                        </div>
+                        <form id="formulario-busca" class="busca-filmes" role="search">
+                            <label class="somente-leitores" for="busca">Buscar um filme</label>
+                            <span aria-hidden="true">⌕</span>
+                            <input type="search" id="busca" placeholder="Qual filme você procura?" autocomplete="off">
                         </form>
                     </div>
+                    <nav id="filtros-generos" class="filtros-generos" aria-label="Filtrar filmes por gênero"></nav>
+                    <p id="nenhum-filme" class="nenhum-filme" hidden>Nenhum filme encontrado. Tente outro título ou escolha outro gênero.</p>
+                    <div id="lista-filmes"></div>
+                    <noscript><p>Ative o JavaScript para explorar os filmes e seus detalhes.</p></noscript>
                 </section>
             </div>
-        </div>
-        <noscript><p class="container">Ative o JavaScript para validar o formulário de entrada.</p></noscript>
-    </main>
+        </main>
 
-    <footer class="rodape">
-        <div class="container d-flex flex-wrap justify-content-between gap-2">
-            <p><strong>Vortex Filmes</strong> · O melhor da diversão.</p>
-            <p>Descubra sua próxima história.</p>
-        </div>
-    </footer>
-</body>
+        <!-- Uma única janela alterna entre sinopse e vídeo, sem sobrepor modais. -->
+        <dialog class="janela-filme" id="janela-filme" aria-labelledby="titulo-filme">
+            <div class="janela-container">
+                <article class="janela-conteudo">
+                    <header class="janela-cabecalho">
+                        <h2 class="titulo-janela" id="titulo-filme">Detalhes do filme</h2>
+                        <button class="botao-fechar" id="fechar-detalhes" type="button" aria-label="Fechar detalhes do filme">×</button>
+                    </header>
+                    <div class="janela-corpo">
+                        <section id="conteudo-detalhes" class="detalhes-filme" aria-label="Sinopse e informações">
+                            <img id="capa-filme" class="capa-detalhes" alt="">
+                            <div>
+                                <p class="sobretitulo" id="categoria-filme"></p>
+                                <p class="texto-secundario" id="ano-filme" hidden></p>
+                                <h3>Sobre o filme</h3>
+                                <p id="sinopse-filme" class="sinopse-filme"></p>
+                            </div>
+                        </section>
+                        <!-- O iframe recebe src somente quando o visitante escolhe reproduzir. -->
+                        <section id="conteudo-video" aria-label="Reprodução do vídeo" hidden>
+                            <p id="tipo-video" class="sobretitulo"></p>
+                            <iframe id="reprodutor-filme" class="reprodutor-filme" title="Reprodução do filme" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                            <p class="ajuda-reprodutor">Se o vídeo não carregar, <a id="link-youtube" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer">abra no YouTube <span aria-hidden="true">↗</span></a>.</p>
+                        </section>
+                    </div>
+                    <footer class="janela-rodape">
+                        <button class="botao-secundario" id="voltar-detalhes" type="button" hidden>← Voltar à sinopse</button>
+                        <button class="botao-secundario" id="ver-trailer" type="button">Ver trailer</button>
+                        <button class="botao-primario" id="assistir-filme" type="button"><span aria-hidden="true">▶</span> Assistir filme</button>
+                    </footer>
+                </article>
+            </div>
+        </dialog>
+
+        <!-- Rodapé compartilhado, sem scripts ou dependências externas. -->
+        <footer class="rodape">
+            <div class="conteiner conteudo-rodape">
+                <p><strong>Vortex Filmes</strong> · O melhor da diversão.</p>
+                <p>Filmes e trailers para a sua próxima sessão.</p>
+            </div>
+        </footer>
+    </body>
 </html>

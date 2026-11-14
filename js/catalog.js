@@ -6,6 +6,7 @@ let ultimoAcionador = null;
 
 /* 2. Funções auxiliares: preparam textos e selecionam os filmes da busca. */
 function normalizarTexto(texto) {
+    // A decomposição separa os acentos; removê-los permite buscar "ficcao" e "Ficção".
     return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
 }
 
@@ -27,6 +28,7 @@ function filtrarFilmes(lista, termo, categoria) {
     return encontrados;
 }
 
+// Centraliza a criação de elementos; textContent insere os textos sem interpretá-los como HTML.
 function criarElemento(tipo, classe, texto) {
     const elemento = document.createElement(tipo);
     elemento.className = classe;
@@ -38,6 +40,7 @@ function criarElemento(tipo, classe, texto) {
     return elemento;
 }
 
+// Converte a duração dos dados, em segundos, para horas e minutos legíveis.
 function formatarDuracao(segundos) {
     if (!segundos) {
         return "";
@@ -51,16 +54,49 @@ function formatarDuracao(segundos) {
 }
 
 function obterTextoTrailer(filme) {
+    // A edição e o idioma são verificados separadamente para não rotular um idioma incerto.
+    if (!filme.trailerConfirmado) {
+        if ((filme.trailer || filme.trailerExterno) && filme.trailerEdicaoConfirmada) {
+            return "Ver trailer (idioma a confirmar) ↗";
+        }
+
+        return "Buscar trailer no YouTube ↗";
+    }
+
+    const indicacaoExterna = filme.trailerIncorporavel === false ? " ↗" : "";
+    const variante = filme.trailerVariante === "pt-PT" ? " (Portugal)" : "";
+
     if (filme.trailerIdioma === "dublado") {
-        return "Trailer dublado";
+        if (filme.trailerDublagemAutomatica) {
+            return "Trailer em português (dublagem automática)" + variante + indicacaoExterna;
+        }
+
+        return "Trailer dublado" + variante + indicacaoExterna;
     } else if (filme.trailerIdioma === "legendado") {
-        return "Trailer legendado em português";
+        return "Trailer legendado em português" + variante + indicacaoExterna;
     } else {
         return "Buscar trailer no YouTube ↗";
     }
 }
 
-/* 3. Catálogo: cria os cartões e agrupa os resultados por gênero. */
+// Distingue idioma confirmado de fala apenas detectada e mantém explícitas as pendências.
+function obterTextoIdioma(filme) {
+    if (!filme.videoConfirmado && filme.videoAudioDetectado === "pt") {
+        return "Fala em português detectada · Versão completa ainda não confirmada";
+    }
+
+    if (!filme.videoConfirmado || filme.videoIdioma !== "pt") {
+        return "Versão completa com áudio em português ainda não confirmada";
+    }
+
+    if (filme.videoVariante === "pt-PT") {
+        return "Áudio em português de Portugal";
+    }
+
+    return filme.videoVariante === "pt-BR" ? "Áudio em português do Brasil" : "Áudio em português (variante não identificada)";
+}
+
+/* 3. Catálogo: cada registro de movies.js fornece os dados de um cartão e dos filtros. */
 function criarCartaoFilme(filme) {
     const artigo = criarElemento("article", "");
     const botao = criarElemento("button", "cartao-filme");
@@ -84,6 +120,7 @@ function criarCartaoFilme(filme) {
     return artigo;
 }
 
+// Refaz a lista usando a busca e a categoria atuais, sem modificar os dados dos filmes.
 function renderizarCatalogo() {
     const termo = document.getElementById("busca").value;
     const encontrados = filtrarFilmes(filmes, termo, categoriaSelecionada);
@@ -120,6 +157,7 @@ function renderizarCatalogo() {
     document.getElementById("nenhum-filme").hidden = encontrados.length > 0;
 }
 
+// aria-pressed informa qual filtro está selecionado, inclusive para leitores de tela.
 function criarFiltrosGeneros() {
     const lista = document.getElementById("filtros-generos");
     const opcoes = ["Todos", ...categorias];
@@ -148,14 +186,46 @@ function criarFiltrosGeneros() {
     });
 }
 
-/* 4. Destaques: o Bootstrap cuida da troca entre os três slides. */
+/* 4. Destaques sorteados, sem repetir a seleção anterior quando houver armazenamento. */
+function sortearDestaques() {
+    let anteriores = [];
+    try {
+        const salvos = JSON.parse(localStorage.getItem("vortex-ultimos-destaques") || "[]");
+        anteriores = Array.isArray(salvos) ? salvos : [];
+    } catch {
+        // O sorteio também funciona quando o navegador bloqueia o armazenamento.
+    }
+
+    let candidatos = filmes.filter(function (filme) {
+        return !anteriores.includes(filme.id);
+    });
+    if (candidatos.length < 3) {
+        candidatos = [...filmes];
+    }
+    // Fisher-Yates embaralha uma cópia dos candidatos, preservando a ordem do catálogo.
+    for (let indice = candidatos.length - 1; indice > 0; indice--) {
+        const sorteado = Math.floor(Math.random() * (indice + 1));
+        [candidatos[indice], candidatos[sorteado]] = [candidatos[sorteado], candidatos[indice]];
+    }
+    // Cada abertura usa três filmes únicos e salva apenas seus IDs para o próximo sorteio.
+    const destaques = candidatos.slice(0, 3);
+    try {
+        localStorage.setItem("vortex-ultimos-destaques", JSON.stringify(destaques.map(function (filme) {
+            return filme.id;
+        })));
+    } catch {
+        // Não é necessário salvar dados para navegar no catálogo.
+    }
+    return destaques;
+}
+
 function criarDestaques() {
-    const destaques = ["filme-032", "filme-012", "filme-047"];
+    const destaques = sortearDestaques();
     const lista = document.getElementById("lista-destaques");
 
     for (let indice = 0; indice < destaques.length; indice++) {
-        const filme = filmes.find(function (item) { return item.id === destaques[indice]; });
-        const diapositivo = criarElemento("div", indice === 0 ? "carousel-item active" : "carousel-item");
+        const filme = destaques[indice];
+        const diapositivo = criarElemento("div", "item-destaque");
         const conteudo = criarElemento("div", "destaque");
         const texto = criarElemento("div", "destaque-texto");
         const botao = criarElemento("button", "botao-primario", "Conhecer o filme →");
@@ -178,10 +248,81 @@ function criarDestaques() {
         lista.append(diapositivo);
     }
 
-    bootstrap.Carousel.getOrCreateInstance(document.getElementById("carrossel-destaques"), { interval: false, touch: true });
+    const carrossel = document.getElementById("carrossel-destaques");
+    const indicadores = carrossel.querySelectorAll("[data-destaque]");
+    const pausa = document.getElementById("pausar-destaques");
+    const movimentoReduzido = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let atual = 0;
+    let pausado = movimentoReduzido.matches;
+
+    // A posição da rolagem define o indicador ativo; inert evita foco nos slides fora de vista.
+    function atualizarIndicadores() {
+        atual = Math.round(lista.scrollLeft / lista.clientWidth) || 0;
+        indicadores.forEach(function (indicador, indice) {
+            indicador.classList.toggle("ativo", indice === atual);
+            if (indice === atual) {
+                indicador.setAttribute("aria-current", "true");
+            } else {
+                indicador.removeAttribute("aria-current");
+            }
+            lista.children[indice].inert = indice !== atual;
+        });
+    }
+
+    // O resto da divisão faz a navegação circular: depois do último vem o primeiro.
+    function mostrarDestaque(indice) {
+        atual = (indice + destaques.length) % destaques.length;
+        lista.scrollTo({ left: atual * lista.clientWidth, behavior: movimentoReduzido.matches ? "instant" : "smooth" });
+    }
+
+    function atualizarPausa() {
+        pausa.textContent = pausado ? "Retomar destaques" : "Pausar destaques";
+        pausa.setAttribute("aria-pressed", String(pausado));
+    }
+
+    indicadores.forEach(function (indicador, indice) {
+        indicador.addEventListener("click", function () {
+            mostrarDestaque(indice);
+        });
+    });
+    document.getElementById("destaque-anterior").addEventListener("click", function () {
+        mostrarDestaque(atual - 1);
+    });
+    document.getElementById("destaque-proximo").addEventListener("click", function () {
+        mostrarDestaque(atual + 1);
+    });
+    pausa.addEventListener("click", function () {
+        pausado = !pausado;
+        atualizarPausa();
+    });
+    lista.addEventListener("scroll", atualizarIndicadores, { passive: true });
+    carrossel.addEventListener("keydown", function (evento) {
+        if (evento.key === "ArrowLeft" || evento.key === "ArrowRight") {
+            evento.preventDefault();
+            mostrarDestaque(atual + (evento.key === "ArrowRight" ? 1 : -1));
+        }
+    });
+    window.addEventListener("resize", function () {
+        lista.scrollTo({ left: atual * lista.clientWidth, behavior: "instant" });
+    });
+    movimentoReduzido.addEventListener("change", function () {
+        if (movimentoReduzido.matches) {
+            pausado = true;
+            atualizarPausa();
+        }
+    });
+    // 6000 milissegundos = 6 segundos. A troca para durante a interação ou com os detalhes abertos.
+    setInterval(function () {
+        if (!pausado && !document.hidden && !document.getElementById("janela-filme").open && !carrossel.matches(":hover") && !carrossel.contains(document.activeElement)) {
+            mostrarDestaque(atual + 1);
+        }
+    }, 6000);
+    atualizarIndicadores();
+    atualizarPausa();
 }
 
 /* 5. Detalhes e reprodução: o vídeo só carrega após um clique do visitante. */
+// Aceita apenas IDs do YouTube com 11 caracteres e monta o link interno ou externo.
 function montarEnderecoVideo(identificador, incorporar) {
     if (!/^[a-zA-Z0-9_-]{11}$/.test(identificador)) {
         return null;
@@ -194,17 +335,20 @@ function montarEnderecoVideo(identificador, incorporar) {
     }
 }
 
+// Remover src interrompe o vídeo; hidden alterna a sinopse, o player e os botões.
 function voltarParaDetalhes() {
-    document.getElementById("player-filme").removeAttribute("src");
-    document.getElementById("conteudo-player").hidden = true;
+    document.getElementById("reprodutor-filme").removeAttribute("src");
+    document.getElementById("conteudo-video").hidden = true;
     document.getElementById("conteudo-detalhes").hidden = false;
     document.getElementById("voltar-detalhes").hidden = true;
     document.getElementById("assistir-filme").hidden = false;
-    document.getElementById("ver-trailer").hidden = false;
+    document.getElementById("ver-trailer").hidden = Boolean(filmeSelecionado && filmeSelecionado.trailerOculto);
 }
 
 function mostrarDetalhesFilme(identificador, acionador) {
-    filmeSelecionado = filmes.find(function (filme) { return filme.id === identificador; });
+    filmeSelecionado = filmes.find(function (filme) {
+        return filme.id === identificador;
+    });
 
     if (!filmeSelecionado) {
         return;
@@ -217,12 +361,23 @@ function mostrarDetalhesFilme(identificador, acionador) {
     document.getElementById("categoria-filme").textContent = filmeSelecionado.categoria;
     document.getElementById("capa-filme").src = filmeSelecionado.capa;
     document.getElementById("capa-filme").alt = "Cartaz de " + filmeSelecionado.titulo;
-    const informacoes = [filmeSelecionado.ano, formatarDuracao(filmeSelecionado.duracao), "Áudio em português"].filter(Boolean).join(" · ");
+    const informacoes = [filmeSelecionado.ano, formatarDuracao(filmeSelecionado.duracao), obterTextoIdioma(filmeSelecionado)].filter(Boolean).join(" · ");
     document.getElementById("ano-filme").textContent = informacoes;
     document.getElementById("ano-filme").hidden = informacoes === "";
     document.getElementById("ver-trailer").textContent = obterTextoTrailer(filmeSelecionado);
-    document.getElementById("assistir-filme").textContent = filmeSelecionado.videoIncorporavel === false ? "Assistir no YouTube ↗" : "▶ Assistir filme";
-    bootstrap.Modal.getOrCreateInstance(document.getElementById("janela-filme")).show();
+    const botaoFilme = document.getElementById("assistir-filme");
+
+    if (!filmeSelecionado.videoConfirmado) {
+        botaoFilme.textContent = montarEnderecoVideo(filmeSelecionado.video, false) ? "Abrir vídeo no YouTube ↗" : "Buscar filme no YouTube ↗";
+    } else if (filmeSelecionado.videoIncorporavel === false) {
+        botaoFilme.textContent = "Assistir no YouTube ↗";
+    } else {
+        botaoFilme.textContent = "▶ Assistir filme";
+    }
+
+    // O dialog nativo mantém o foco na janela e permite fechar com Escape.
+    document.getElementById("janela-filme").showModal();
+    document.body.classList.add("detalhes-abertos");
 }
 
 function reproduzirVideo(tipo) {
@@ -233,7 +388,7 @@ function reproduzirVideo(tipo) {
     const identificador = tipo === "trailer" ? filmeSelecionado.trailer : filmeSelecionado.video;
     const incorporavel = tipo === "trailer" ? filmeSelecionado.trailerIncorporavel : filmeSelecionado.videoIncorporavel;
 
-    // Alguns canais permitem assistir no YouTube, mas bloqueiam o player em outros sites.
+    // Os dados indicam quais vídeos precisam abrir diretamente em outra aba.
     if (incorporavel === false) {
         const enderecoYouTube = montarEnderecoVideo(identificador, false);
 
@@ -249,9 +404,9 @@ function reproduzirVideo(tipo) {
     const endereco = enderecoBase && pedirLegendas ? enderecoBase + "&cc_load_policy=1&cc_lang_pref=pt&hl=pt-BR" : enderecoBase;
 
     if (endereco) {
-        const reprodutor = document.getElementById("player-filme");
+        const reprodutor = document.getElementById("reprodutor-filme");
         document.getElementById("conteudo-detalhes").hidden = true;
-        document.getElementById("conteudo-player").hidden = false;
+        document.getElementById("conteudo-video").hidden = false;
         const textoTrailer = obterTextoTrailer(filmeSelecionado);
         document.getElementById("tipo-video").textContent = tipo === "trailer" ? textoTrailer : "Assistir filme";
         reprodutor.title = (tipo === "trailer" ? "Trailer de " : "Assistir ") + filmeSelecionado.titulo;
@@ -268,22 +423,47 @@ function abrirFilme() {
     if (filmeSelecionado && filmeSelecionado.videoConfirmado) {
         reproduzirVideo("filme");
     } else if (filmeSelecionado) {
-        const consulta = encodeURIComponent(filmeSelecionado.titulo + " filme completo dublado");
+        // A pendência de idioma ou edição não impede consultar o vídeo já cadastrado.
+        const endereco = montarEnderecoVideo(filmeSelecionado.video, false);
+
+        if (endereco) {
+            window.open(endereco, "_blank", "noopener,noreferrer");
+            return;
+        }
+
+        const consulta = encodeURIComponent(filmeSelecionado.titulo + " " + (filmeSelecionado.ano || "") + " filme completo português");
         window.open("https://www.youtube.com/results?search_query=" + consulta, "_blank", "noopener,noreferrer");
     }
 }
 
 function abrirTrailer() {
-    if (filmeSelecionado && filmeSelecionado.trailer && filmeSelecionado.trailerIdioma) {
+    if (!filmeSelecionado || filmeSelecionado.trailerOculto) {
+        return;
+    }
+
+    if (filmeSelecionado.trailerConfirmado && filmeSelecionado.trailerExterno) {
+        window.open(filmeSelecionado.trailerExterno, "_blank", "noopener,noreferrer");
+        return;
+    }
+
+    if (filmeSelecionado && filmeSelecionado.trailerConfirmado && filmeSelecionado.trailer && filmeSelecionado.trailerIdioma) {
         reproduzirVideo("trailer");
+    } else if (filmeSelecionado && filmeSelecionado.trailerEdicaoConfirmada && (filmeSelecionado.trailer || filmeSelecionado.trailerExterno)) {
+        // O link é do filme correto; o YouTube permite conferir as faixas ainda pendentes.
+        const endereco = filmeSelecionado.trailerExterno || montarEnderecoVideo(filmeSelecionado.trailer, false);
+
+        if (endereco) {
+            window.open(endereco, "_blank", "noopener,noreferrer");
+        }
     } else if (filmeSelecionado) {
         // A busca é identificada como busca quando ainda não há um link confirmado.
-        const consulta = encodeURIComponent(filmeSelecionado.titulo + " trailer dublado ou legendado português");
+        const consulta = encodeURIComponent(filmeSelecionado.titulo + " " + (filmeSelecionado.ano || "") + " trailer dublado ou legendado português");
         window.open("https://www.youtube.com/results?search_query=" + consulta, "_blank", "noopener,noreferrer");
     }
 }
 
 function abrirFilmeClicado(evento) {
+    // O mesmo evento atende aos cartões e destaques, inclusive quando recriados pela busca.
     const botao = evento.target.closest("[data-filme]");
 
     if (botao) {
@@ -293,11 +473,14 @@ function abrirFilmeClicado(evento) {
 
 /* 6. Inicialização: conecta os eventos depois que o HTML foi carregado. */
 function iniciarCatalogo() {
+    // Primeiro monta os elementos; depois associa cada evento à sua função.
     criarFiltrosGeneros();
     criarDestaques();
     renderizarCatalogo();
     document.getElementById("busca").addEventListener("input", renderizarCatalogo);
-    document.getElementById("formulario-busca").addEventListener("submit", function (evento) { evento.preventDefault(); });
+    document.getElementById("formulario-busca").addEventListener("submit", function (evento) {
+        evento.preventDefault();
+    });
     document.getElementById("lista-filmes").addEventListener("click", abrirFilmeClicado);
     document.getElementById("lista-destaques").addEventListener("click", abrirFilmeClicado);
     document.getElementById("assistir-filme").addEventListener("click", abrirFilme);
@@ -306,13 +489,33 @@ function iniciarCatalogo() {
         voltarParaDetalhes();
         document.getElementById("assistir-filme").focus();
     });
-    document.getElementById("janela-filme").addEventListener("hidden.bs.modal", function () {
+    const janela = document.getElementById("janela-filme");
+    document.getElementById("fechar-detalhes").addEventListener("click", function () {
+        janela.close();
+    });
+    janela.addEventListener("click", function (evento) {
+        const limites = janela.getBoundingClientRect();
+        // Fecha somente se o clique estiver fora dos limites da janela.
+        if (evento.target === janela && (evento.clientX < limites.left || evento.clientX > limites.right || evento.clientY < limites.top || evento.clientY > limites.bottom)) {
+            janela.close();
+        }
+    });
+    // Limpa o player e devolve o foco ao cartão que abriu a janela.
+    janela.addEventListener("close", function () {
+        document.body.classList.remove("detalhes-abertos");
         voltarParaDetalhes();
         filmeSelecionado = null;
 
         if (ultimoAcionador && ultimoAcionador.isConnected) {
             ultimoAcionador.focus();
         }
+    });
+    // A classe controla o CSS do menu; aria-expanded comunica seu estado.
+    const botaoMenu = document.getElementById("alternar-menu");
+    botaoMenu.addEventListener("click", function () {
+        const aberto = document.getElementById("menu-principal").classList.toggle("aberto");
+        botaoMenu.setAttribute("aria-expanded", String(aberto));
+        botaoMenu.setAttribute("aria-label", aberto ? "Fechar menu" : "Abrir menu");
     });
     console.log("Catálogo da Vortex Filmes carregado com " + filmes.length + " filmes.");
 }

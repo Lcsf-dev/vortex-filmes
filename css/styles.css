@@ -1,0 +1,993 @@
+/* 1. Base, cabeçalho, botões e rodapé. */
+/* A paleta e os componentes compartilhados mantêm a identidade da Vortex Filmes. */
+:root {
+    --fundo-principal: #071426;
+    --fundo-painel: #0b1b33;
+    --azul-principal: #075bee;
+    --azul-destaque: #1685ff;
+    --texto-principal: #f4f7fb;
+    --texto-secundario: #aeb8c7;
+    --borda-suave: rgba(174, 184, 199, 0.18);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 105px;
+}
+
+body {
+    margin: 0;
+    background: var(--fundo-principal);
+    color: var(--texto-principal);
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.6;
+    min-width: 320px;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #fff;
+}
+
+button, input {
+    font: inherit;
+}
+
+button, a, input {
+    -webkit-tap-highlight-color: transparent;
+}
+
+:focus-visible {
+    outline: 3px solid #85bcff;
+    outline-offset: 5px;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+.pular-conteudo {
+    position: fixed;
+    top: -80px;
+    left: 16px;
+    z-index: 2000;
+    padding: 10px 18px;
+    background: var(--azul-principal);
+    border-radius: 8px;
+}
+
+.pular-conteudo:focus {
+    top: 12px;
+}
+
+.cabecalho {
+    position: sticky;
+    top: 0;
+    z-index: 1020;
+    background: rgba(6, 17, 32, 0.96);
+    border-bottom: 1px solid var(--borda-suave);
+    backdrop-filter: blur(14px);
+}
+
+.cabecalho
+/* Flexbox alinha a marca e os links; o menu é recolhido em telas pequenas. */
+.navegacao-principal {
+    min-height: 90px;
+}
+
+.marca img {
+    display: block;
+    width: 225px;
+    height: auto;
+}
+
+.cabecalho .lista-menu {
+    gap: 20px;
+}
+
+.cabecalho .link-menu {
+    color: var(--texto-secundario);
+    font-weight: 600;
+}
+
+.cabecalho .link-menu:hover, .cabecalho .link-menu[aria-current="page"] {
+    color: #fff;
+}
+
+.cabecalho .link-menu[aria-current="page"] {
+    box-shadow: 0 2px var(--azul-destaque);
+}
+
+.botao-menu {
+    border-color: var(--borda-suave);
+    padding: 10px;
+}
+
+.botao-primario, .botao-secundario {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 46px;
+    padding: 11px 24px;
+    border: 1px solid transparent;
+    border-radius: 9px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    transition: background 160ms, border-color 160ms, transform 160ms;
+}
+
+.botao-primario {
+    background: var(--azul-principal);
+    color: #fff;
+}
+
+.botao-primario:hover {
+    background: #176bfa;
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+.botao-secundario {
+    background: transparent;
+    color: var(--texto-principal);
+    border-color: #586d88;
+}
+
+.botao-secundario:hover {
+    background: rgba(22, 133, 255, 0.1);
+    border-color: var(--azul-destaque);
+}
+
+.sobretitulo {
+    color: #8dc2ff;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+
+.texto-secundario {
+    color: var(--texto-secundario);
+}
+
+.texto-azul {
+    color: var(--azul-destaque);
+}
+
+.rodape {
+    padding: 26px 0;
+    border-top: 1px solid var(--borda-suave);
+    background: #061120;
+    color: var(--texto-secundario);
+    font-size: 0.8rem;
+}
+
+.rodape p {
+    margin: 0;
+}
+
+.rodape strong {
+    color: var(--texto-principal);
+}
+
+/* 2. Carrossel de destaques. */
+/* O cenário azul e as capas originais formam a base visual do catálogo. */
+body {
+    background: radial-gradient(ellipse at 85% 10%, #0c2343 0%, var(--fundo-principal) 50%);
+}
+
+.secao-destaques {
+    padding-top: 30px;
+}
+
+.carrossel {
+    border: 1px solid rgba(22, 133, 255, 0.3);
+    border-radius: 18px;
+    overflow: hidden;
+    background: #08172c url("../images/backgrounds/catalog-background.png") center / cover;
+}
+
+.destaque {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 45px;
+    min-height: 410px;
+    padding: 48px 85px 62px;
+    background: linear-gradient(90deg, rgba(7, 20, 38, 0.93), rgba(7, 20, 38, 0.24));
+}
+
+.destaque-texto {
+    max-width: 650px;
+}
+
+.destaque h2 {
+    margin: 18px 0;
+    font-size: clamp(1.8rem, 3.4vw, 3rem);
+    line-height: 1.08;
+    font-weight: 800;
+    letter-spacing: -0.035em;
+}
+
+.destaque .resumo-destaque {
+    color: #ced9e8;
+    max-width: 570px;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin-bottom: 24px;
+}
+
+.destaque img {
+    width: 185px;
+    height: 274px;
+    flex-shrink: 0;
+    object-fit: cover;
+    border: 1px solid #526a8b;
+    border-radius: 10px;
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.5);
+}
+
+.controle-anterior, .controle-proximo {
+    width: 50px;
+}
+
+.icone-anterior, .icone-proximo {
+    width: 20px;
+}
+
+.indicadores-destaques {
+    margin-bottom: 22px;
+}
+
+.indicadores-destaques [data-destaque] {
+    width: 22px;
+    height: 4px;
+    border: none;
+    border-radius: 6px;
+    background-color: #b7d6ff;
+    opacity: 0.45;
+}
+
+.indicadores-destaques .ativo {
+    background-color: #1685ff;
+    opacity: 1;
+}
+
+/* 3. Busca e filtros do catálogo. */
+.secao-catalogo {
+    padding: 55px 0 70px;
+}
+
+.cabecalho-catalogo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.cabecalho-catalogo h2 {
+    font-size: clamp(1.6rem, 2.5vw, 2rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin-bottom: 10px;
+}
+
+.cabecalho-catalogo .sobretitulo {
+    margin-bottom: 8px;
+}
+
+#contador-filmes {
+    font-size: 0.85rem;
+    margin: 0;
+}
+
+.busca-filmes {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 270px;
+    padding: 9px 14px;
+    border: 1px solid #3a4c68;
+    border-radius: 9px;
+    background: #0b1b33;
+}
+
+.busca-filmes span {
+    font-size: 1.5rem;
+    line-height: 1;
+    color: #8dc2ff;
+}
+
+.busca-filmes input {
+    width: 100%;
+    min-width: 0;
+    padding: 5px 0;
+    border: 0;
+    background: transparent;
+    color: #fff;
+    font-size: 0.85rem;
+}
+
+.busca-filmes input::placeholder {
+    color: var(--texto-secundario);
+}
+
+.busca-filmes:focus-within {
+    border-color: #1685ff;
+}
+
+.filtros-generos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 28px 0 8px;
+}
+
+.filtro-genero {
+    min-height: 38px;
+    padding: 7px 17px;
+    border: 1px solid #344b6b;
+    border-radius: 30px;
+    background: transparent;
+    color: #c0cde0;
+    font-size: 0.8rem;
+}
+
+.filtro-genero:hover {
+    border-color: #1685ff;
+    color: #fff;
+}
+
+.filtro-genero[aria-pressed="true"] {
+    background: #075bee;
+    border-color: #075bee;
+    color: #fff;
+}
+
+/* 4. Grupos e cartões de filmes. */
+.grupo-filmes {
+    padding-top: 30px;
+}
+
+.titulo-grupo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 0 0 20px;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.titulo-grupo::after {
+    content: "";
+    height: 1px;
+    flex: 1;
+    background: linear-gradient(90deg, #23599b, transparent);
+}
+
+.grade-filmes {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.cartao-filme {
+    width: 100%;
+    display: block;
+    padding: 0;
+    border: 1px solid #293f5f;
+    border-radius: 10px;
+    background: #0b1b33;
+    color: #fff;
+    text-align: left;
+    overflow: hidden;
+    transition: transform 180ms, border-color 180ms, box-shadow 180ms;
+}
+
+.cartao-filme:hover {
+    transform: translateY(-5px);
+    border-color: #1685ff;
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.28);
+}
+
+.cartao-filme img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    background: #142a46;
+}
+
+.informacoes-cartao {
+    position: relative;
+    padding: 14px 12px;
+}
+
+.informacoes-cartao h4 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 2.8em;
+    font-size: 0.85rem;
+    font-weight: 700;
+    line-height: 1.4;
+    margin: 0 0 8px;
+}
+
+.informacoes-cartao p {
+    margin: 0;
+    font-size: 0.7rem;
+    color: var(--texto-secundario);
+}
+
+.abrir-cartao {
+    position: absolute;
+    right: 11px;
+    bottom: 11px;
+    display: grid;
+    place-items: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #075bee;
+    color: #fff;
+    font-size: 0.65rem;
+}
+
+.nenhum-filme {
+    padding: 60px 20px;
+    text-align: center;
+    color: var(--texto-secundario);
+}
+
+/* 5. Janela de detalhes e reprodução dos vídeos. */
+.janela-conteudo {
+    background: #0b1b33;
+    border: 1px solid #315887;
+    border-radius: 14px;
+}
+
+.janela-cabecalho, .janela-rodape {
+    border-color: var(--borda-suave);
+    padding: 20px 24px;
+}
+
+.janela-corpo {
+    padding: 28px;
+}
+
+.detalhes-filme {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 30px;
+    align-items: start;
+}
+
+.capa-detalhes {
+    display: block;
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #344b6b;
+}
+
+.detalhes-filme h3 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 18px;
+}
+
+.sinopse-filme {
+    color: #d9e0e9;
+    font-size: 0.95rem;
+    line-height: 1.85;
+}
+
+.reprodutor-filme {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    min-height: 200px;
+    border: 0;
+    border-radius: 8px;
+    background: #000;
+}
+
+.ajuda-reprodutor {
+    margin: 15px 0 0;
+    font-size: 0.8rem;
+    color: var(--texto-secundario);
+}
+
+.ajuda-reprodutor a {
+    color: #8dc2ff;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+/* 6. Responsividade: cabeçalho, rodapé, grade e janela de detalhes. */
+/* Os elementos acompanham a largura disponível, sem margens negativas. */
+@media (max-width: 767.98px) {
+    .cabecalho .navegacao-principal {
+        min-height: 76px;
+    }
+
+    .marca img {
+        width: 175px;
+    }
+
+    .cabecalho .lista-menu {
+        padding: 18px 0;
+        gap: 12px;
+    }
+
+    .cabecalho .link-menu[aria-current="page"] {
+        box-shadow: none;
+        color: #8dc2ff;
+    }
+
+    .rodape {
+        padding: 22px 0;
+    }
+
+}
+
+/* A quantidade de colunas diminui para que as capas continuem legíveis. */
+@media (max-width: 1199.98px) {
+    .grade-filmes {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+}
+
+@media (max-width: 767.98px) {
+    .destaque {
+        min-height: 360px;
+        padding: 36px 45px 55px;
+        gap: 20px;
+    }
+
+    .destaque img {
+        width: 130px;
+        height: 195px;
+    }
+
+    .destaque h2 {
+        font-size: 1.8rem;
+    }
+
+    .destaque .resumo-destaque {
+        font-size: 0.8rem;
+    }
+
+    .grade-filmes {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .busca-filmes {
+        width: 100%;
+    }
+
+    .secao-catalogo {
+        padding-top: 36px;
+    }
+
+    .detalhes-filme {
+        grid-template-columns: 120px 1fr;
+        gap: 18px;
+    }
+
+    .janela-corpo {
+        padding: 20px;
+    }
+
+}
+
+@media (max-width: 575.98px) {
+    .secao-destaques {
+        padding-top: 18px;
+    }
+
+    .destaque {
+        min-height: 340px;
+        padding: 32px 38px 50px;
+    }
+
+    .destaque img {
+        display: none;
+    }
+
+    .destaque .resumo-destaque {
+        font-size: 0.85rem;
+    }
+
+    .destaque h2 {
+        font-size: 2rem;
+    }
+
+    .controle-anterior, .controle-proximo {
+        width: 30px;
+    }
+
+    .grade-filmes {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .filtro-genero {
+        padding-inline: 13px;
+    }
+
+    .detalhes-filme {
+        grid-template-columns: 1fr;
+    }
+
+    .capa-detalhes {
+        width: 130px;
+    }
+
+    .janela-rodape {
+        padding: 16px;
+        gap: 8px;
+    }
+
+    .janela-rodape button {
+        flex: 1;
+        margin: 0;
+        padding-inline: 12px;
+        font-size: 0.8rem;
+    }
+
+}
+
+/* Respeita quem prefere reduzir animações no aparelho. */
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+
+}
+
+/* 7. Estrutura nativa: complementa os componentes acima, sem bibliotecas. */
+/* Mantida ao final para preservar a prioridade das regras na cascata. */
+/* Tipografia e largura centralizada compartilhadas entre as seções. */
+h1, h2, h3, h4 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+}
+
+p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+button {
+    cursor: pointer;
+}
+
+.conteiner {
+    width: 100%;
+    padding-inline: 12px;
+    margin-inline: auto;
+}
+
+/* Oculta visualmente sem retirar o conteúdo dos leitores de tela. */
+.somente-leitores {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+}
+
+.navegacao-principal {
+    padding-block: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.navegacao-principal > .conteiner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.lista-menu {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.link-menu {
+    display: block;
+    padding: 8px;
+}
+
+.botao-menu {
+    display: none;
+    border: 1px solid var(--borda-suave);
+    border-radius: 6px;
+    background: transparent;
+    color: inherit;
+}
+
+.icone-menu {
+    display: block;
+    width: 24px;
+    height: 18px;
+    border-block: 2px solid currentColor;
+    position: relative;
+}
+
+.icone-menu::after {
+    content: "";
+    position: absolute;
+    top: 6px;
+    left: 0;
+    width: 100%;
+    border-top: 2px solid currentColor;
+}
+
+.conteudo-rodape {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+/* O carrossel posiciona as setas e os indicadores sobre a faixa de filmes. */
+.carrossel {
+    position: relative;
+}
+
+/* Scroll Snap encaixa cada slide; cada item ocupa 100% da largura disponível. */
+.lista-destaques {
+    position: relative;
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+}
+
+.lista-destaques::-webkit-scrollbar {
+    display: none;
+}
+
+.item-destaque {
+    flex: 0 0 100%;
+    min-width: 0;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+}
+
+.item-destaque .destaque {
+    height: 100%;
+}
+
+/* Setas desenhadas com bordas do CSS, sem arquivos de ícones. */
+.controle-anterior, .controle-proximo {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: white;
+    opacity: 0.65;
+}
+
+.controle-anterior:hover, .controle-proximo:hover {
+    opacity: 1;
+}
+
+.controle-anterior {
+    left: 0;
+}
+
+.controle-proximo {
+    right: 0;
+}
+
+.icone-anterior, .icone-proximo {
+    display: block;
+    height: 20px;
+    border-top: 2px solid currentColor;
+}
+
+.icone-anterior {
+    border-left: 2px solid currentColor;
+    transform: rotate(-45deg) scale(0.65);
+}
+
+.icone-proximo {
+    border-right: 2px solid currentColor;
+    transform: rotate(45deg) scale(0.65);
+}
+
+/* Indicadores centralizados; o JavaScript atualiza a classe ativo. */
+.indicadores-destaques {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    z-index: 1;
+    display: flex;
+    gap: 6px;
+    transform: translateX(-50%);
+}
+
+.indicadores-destaques button {
+    padding: 0;
+}
+
+.pausa-destaques {
+    position: absolute;
+    right: 14px;
+    bottom: 10px;
+    border: 0;
+    border-radius: 4px;
+    padding: 3px 6px;
+    color: #ced9e8;
+    background: #08172c;
+    font-size: 0.65rem;
+}
+
+/* O dialog nativo recebe o foco; o fundo escurece e a página deixa de rolar. */
+body.detalhes-abertos {
+    overflow: hidden;
+}
+
+.janela-filme {
+    width: calc(100% - 32px);
+    max-width: 1140px;
+    max-height: calc(100% - 56px);
+    margin: auto;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--texto-principal);
+    overflow: visible;
+}
+
+.janela-filme::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.janela-conteudo {
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100dvh - 56px);
+    overflow: hidden;
+}
+
+.janela-cabecalho, .janela-rodape {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.janela-cabecalho {
+    justify-content: space-between;
+    border-bottom: 1px solid var(--borda-suave);
+}
+
+.titulo-janela {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 500;
+}
+
+.botao-fechar {
+    padding: 0 5px;
+    border: 0;
+    background: transparent;
+    color: #aeb8c7;
+    font-size: 2rem;
+    line-height: 1;
+}
+
+/* A sinopse pode rolar sem esconder o cabeçalho e os botões da janela. */
+.janela-corpo {
+    min-height: 0;
+    overflow-y: auto;
+}
+
+.janela-rodape {
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    border-top: 1px solid var(--borda-suave);
+}
+
+/* Limita a largura do conteúdo de acordo com o tamanho da tela. */
+@media (min-width: 576px) {
+    .conteiner {
+        max-width: 540px;
+    }
+
+}
+
+@media (min-width: 768px) {
+    .conteiner {
+        max-width: 720px;
+    }
+
+}
+
+@media (min-width: 992px) {
+    .conteiner {
+        max-width: 960px;
+    }
+
+}
+
+@media (min-width: 1200px) {
+    .conteiner {
+        max-width: 1140px;
+    }
+
+}
+
+@media (min-width: 1400px) {
+    .conteiner {
+        max-width: 1320px;
+    }
+
+}
+
+@media (min-width: 576px) and (max-width: 1199.98px) {
+    .janela-filme {
+        max-width: 800px;
+    }
+
+}
+
+/* No celular, o botão alterna a classe aberto e revela os links. */
+@media (max-width: 767.98px) {
+    .botao-menu {
+        display: block;
+    }
+
+    .menu-principal {
+        display: none;
+        flex-basis: 100%;
+    }
+
+    .menu-principal.aberto {
+        display: block;
+    }
+
+    .lista-menu {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+}
