@@ -1,5 +1,5 @@
 /* 1. Estado da página: guarda o filtro atual e o filme aberto na janela. */
-const categorias = ["Ação", "Aventura", "Ficção", "Terror", "Drama", "Romance", "Animação", "Infantil"];
+const categorias = ["Ação", "Aventura", "Ficção", "Terror", "Drama", "Romance", "Animação", "Infantil", "Comédia", "Suspense", "Fantasia", "Documentário"];
 let categoriaSelecionada = "Todos";
 let filmeSelecionado = null;
 let ultimoAcionador = null;
@@ -356,7 +356,9 @@ function mostrarDetalhesFilme(identificador, acionador) {
     document.getElementById("categoria-filme").textContent = filmeSelecionado.categoria;
     document.getElementById("capa-filme").src = filmeSelecionado.capa;
     document.getElementById("capa-filme").alt = "Cartaz de " + filmeSelecionado.titulo;
-    const informacoes = [filmeSelecionado.ano, formatarDuracao(filmeSelecionado.duracao), obterTextoIdioma(filmeSelecionado)].filter(Boolean).join(" · ");
+    // Nos documentários, o ano identifica a publicação da versão em português.
+    const anoExibido = filmeSelecionado.anoReferencia ? filmeSelecionado.ano + " (publicação)" : filmeSelecionado.ano;
+    const informacoes = [anoExibido, formatarDuracao(filmeSelecionado.duracao), obterTextoIdioma(filmeSelecionado)].filter(Boolean).join(" · ");
     document.getElementById("ano-filme").textContent = informacoes;
     document.getElementById("ano-filme").hidden = informacoes === "";
     document.getElementById("ver-trailer").textContent = obterTextoTrailer(filmeSelecionado);

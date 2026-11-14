@@ -1,6 +1,6 @@
 # 🎬 Vortex Filmes
 
-Catálogo de **96 filmes em oito categorias**, com busca, destaques e detalhes. Desenvolvido com **HTML, CSS e JavaScript**, sem bibliotecas externas ou instalação de dependências.
+Catálogo de **144 filmes em 12 categorias**, com busca, destaques e detalhes. Desenvolvido com **HTML, CSS e JavaScript**, sem bibliotecas externas ou instalação de dependências.
 
 ## 🌐 Acesse o projeto
 
@@ -32,7 +32,7 @@ Acesse [localhost:5500](http://127.0.0.1:5500). Encerre com `Ctrl+C`. Os vídeos
 ```text
 index.html                          Estrutura da página
 css/styles.css                      Aparência e responsividade
-js/movies.js                        Dados dos 96 filmes
+js/movies.js                        Dados dos 144 filmes
 js/catalog.js                       Busca, filtros e interações
 images/posters/movie-001.jpg         Capas identificadas pelo número do filme
 images/backgrounds/catalog-background.png
@@ -52,8 +52,11 @@ Nomes de arquivos e pastas seguem o padrão em inglês; conteúdo e comentários
 
 ## ✅ Conferência dos vídeos — 14/11/2026
 
-- **96 sinopses** revisadas; **72 filmes** com português confirmado e **24** com confirmação integral pendente.
-- **81 trailers em português:** 40 dublados (seis com dublagem automática identificada) e 41 legendados. Outros **15 botões estão ocultos** por falta de português comprovado.
-- **96 filmes têm link cadastrado com incorporação permitida nos metadados.** Os quatro registros indisponíveis foram substituídos por Arthur e os Minimoys, Uma Aventura no Gelo, Pororo: Aventuras no Castelo do Dragão e A Loja Mágica de Brinquedos, preservando suas categorias e atualizando capas e sinopses.
-- Os 96 filmes e os 81 trailers visíveis usam o player interno. Confirmação de idioma é independente do destino de reprodução. Os trailers de Conduzido para Matar e Arthur e os Minimoys utilizam o player oficial do Dailymotion.
-- CAPTCHA e limitações do YouTube impediram validar toda a reprodução. Idioma documentado e link disponível **não garantem reprodução atual**; disponibilidade pode mudar.
+- **144 títulos e sinopses**, com 12 em cada categoria. Adicionadas **Comédia, Suspense, Fantasia e Documentário**, preservando os 96 registros anteriores.
+- **48 novos vídeos completos com áudio em português**, publicados por NetMovies, Film Plus e DW Brasil. Incorporação e disponibilidade no Brasil constam nos metadados; reprodução integral não foi testada.
+- Os 12 documentários são produções estrangeiras da DW com narração e tradução de falas em português, com duração entre 25 e 43 minutos. O ano exibido nesses registros é o da publicação da versão em português; nas ficções novas, os anos vão de 2016 a 2024.
+- **120 filmes com português confirmado**; as 24 pendências de confirmação integral dos registros antigos permanecem documentadas.
+- **113 trailers em português:** 55 dublados e 58 legendados. As versões automáticas permanecem identificadas nos dados e na interface.
+- Foram adicionados **32 trailers confirmados**. Os 12 documentários não tiveram trailer separado localizado. Melhores A(m)igos: Volume 1 e A Pequena Bruxa retornaram outras obras ou versões sem português comprovado; Apanhador de Pesadelos não teve português confirmado; Entre Mundos teve versões em português com incorporação bloqueada. Os 16 botões correspondentes ficam ocultos, junto dos 15 já ocultos no catálogo anterior. Os motivos constam em `trailerVerificacao` de cada registro.
+- Filmes e trailers disponíveis usam o player interno. Os trailers de Conduzido para Matar e Arthur e os Minimoys utilizam o player oficial do Dailymotion.
+- CAPTCHA e limitações do YouTube impedem garantir a reprodução integral de todos os vídeos. Idioma documentado e link disponível não garantem reprodução atual; a disponibilidade pode mudar.
